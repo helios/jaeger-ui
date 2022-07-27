@@ -22,7 +22,7 @@ limitations under the License.
 
 .HopsSelector--Selector--decrement,
 .HopsSelector--Selector--increment {
-  background-color: #f4f4f4;
+  background-color: #151515;
   border: none;
   cursor: pointer;
   height: 27px;
@@ -40,7 +40,7 @@ limitations under the License.
 
 .HopsSelector--Selector--decrement:disabled,
 .HopsSelector--Selector--increment:disabled {
-  color: #bbb;
+  color: #095dd9;
 }
 
 .HopsSelector--Selector--btn {
@@ -54,7 +54,7 @@ limitations under the License.
 }
 
 .HopsSelector--Selector--btn.is-Empty {
-  color: #aaa;
+  color: #094ff9;
   font-weight: 400;
 }
 
@@ -67,12 +67,12 @@ limitations under the License.
 } */
 
 .HopsSelector--Selector > .HopsSelector--Selector--delimiter {
-  color: #999;
+  color: #096dd9;
   font-weight: 400;
 }
 
 .HopsSelector--Selector--slash {
-  color: #999;
+  color: #096dd9;
 }
 
 .HopsSelector--Selector--AscIcon {
@@ -84,19 +84,19 @@ limitations under the License.
 }
 
 .HopsSelector--Selector--ChevronDown {
-  color: #999;
+  color: #096dd9;
   height: 0.7em;
   padding-bottom: 0.15em;
   width: 0.7em;
 }
 
 .HopsSelector--Selector--ChevronRight {
-  color: #999;
+  color: #096dd9;
   height: 0.7em;
   padding-bottom: 0.15em;
   width: 0.7em;
 }
 
 .HopsSelector--Selector--ChevronRight.is-Empty {
-  color: #ccc;
+  color: #093dd9;
 }

@@ -97,12 +97,12 @@ limitations under the License.
 
 .TraceGraph--miniMap .plexus-MiniMap--mapActive {
   /* dynamic: width, height, transform */
-  background: #ccc;
+  background: #151c26;
   position: absolute;
 }
 
 .TraceGraph--miniMap > .plexus-MiniMap--button {
-  background: #ccc;
+  background: #151c26;
   color: #888;
   cursor: pointer;
   font-size: 1.6em;
