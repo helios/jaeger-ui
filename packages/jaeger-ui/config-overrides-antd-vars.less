@@ -1,11 +1,11 @@
-@primary-color: #199;
+// @primary-color: #199;
 
 @font-size-base: 14px;
-@text-color-dark: #e4e4e4;
-@text-color-secondary-dark: #fff;
+@text-color-dark: #17222f;
+@text-color-secondary-dark: #151c26;
 
 // Layout
-@layout-body-background      :#fff;
+@layout-body-background      :#151c26;
 @layout-header-background    : #404040;
 @layout-footer-background    : @layout-body-background;
 @layout-header-height        : 64px;
@@ -14,11 +14,145 @@
 @layout-sider-background     : @layout-header-background;
 @layout-trigger-height       : 48px;
 @layout-trigger-background   : tint(@heading-color, 20%);
-@layout-trigger-color        : #fff;
+@layout-trigger-color        : #17222f;
 @layout-zero-trigger-width   : 36px;
 @layout-zero-trigger-height  : 42px;
 
 @menu-dark-bg: #151515;
 
 // Table
-@table-row-hover-bg:#e5f2f2;
+@table-row-hover-bg:#304759;
+
+@hs-transparent: transparent;
+
+@hs-marine-30: #3393f2;
+@bleu-de-france: #3393f2;
+
+@hs-gray-10: #d7dade;
+@hs-gray-60: #626973;
+@hs-gray-300: #758590;
+@hs-gray-400: #485d6c;
+@hs-gray-500: #304759;
+@hs-gray-600: #1a3447;
+@hs-gray-700: #142938;
+
+@hs-dark-90: #17222f;
+@hs-dark-100: #151c26;
+
+// application colors mapping:
+
+@hs-dropdown-bg-color: @hs-gray-700;
+@hs-dropdown-item-hover-color: @hs-gray-600;
+@hs-dropdown-item-selected-color: @hs-gray-500;
+@hs-divider-color: @hs-gray-60;
+@hs-unselected-color: @hs-gray-300;
+@hs-disabled-color: @hs-gray-400;
+@hs-app-bg-color: @hs-dark-90;
+@hs-content-bg-color: @hs-dark-90;
+@hs-default-font-color: @hs-gray-10;
+@hs-default-lighter-font-color: @hs-gray-300; // temporary
+@hs-primary-color: @hs-marine-30;
+@hs-secondary-color: @bleu-de-france; // temporary
+
+
+// @import '../config/_colors.less';
+
+// Main definition override
+// ---
+@primary-color: @hs-primary-color;
+@secondary-color: @hs-secondary-color;
+@body-background: @hs-app-bg-color;
+@component-background: @hs-content-bg-color;
+@popover-background: @hs-content-bg-color;
+@border-radius-base: 4px;
+@font-family: 'Lato', sans-serif;
+@dropdown-font-size: 14px;
+@item-hover-bg: @hs-dropdown-item-hover-color;
+
+// Typography override
+// ---
+@text-color: @hs-default-font-color;
+@text-color-secondary: @hs-default-lighter-font-color; // TODO: verify
+@text-color-inverse: @hs-dark-100;
+
+// Menu override
+// ---
+@menu-bg: @hs-transparent;
+@menu-item-active-bg: @primary-color;
+@menu-highlight-color: @primary-color;
+@menu-item-font-size: 14px;
+
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+    color: @text-color-inverse;
+}
+
+.ant-menu-horizontal {
+    border-bottom: none;
+
+    & > .ant-menu-item:not(.ant-menu-item-selected):hover::after {
+        content: none;
+    }
+}
+
+// Dropdowns custom scrollbars used by ant:
+
+.rc-virtual-list-scrollbar {
+    width: 3px !important;
+
+    .rc-virtual-list-scrollbar-thumb {
+        background: @hs-gray-300 !important;
+    }
+}
+
+// Input override
+// ---
+@input-bg: @hs-transparent;
+@input-placeholder-color: @hs-unselected-color;
+@input-icon-color: @hs-unselected-color;
+@input-icon-hover-color: @hs-primary-color;
+@input-disabled-color: @hs-disabled-color;
+@input-disabled-bg: @hs-transparent;
+@input-hover-border-color: @hs-unselected-color;
+
+// Select override
+// ---
+@select-multiple-disabled-background: @hs-transparent;
+@select-multiple-item-disabled-color: @hs-unselected-color;
+@select-dropdown-bg: @hs-dropdown-bg-color;
+@select-item-active-bg: @hs-dropdown-item-hover-color;
+@select-item-selected-bg: @hs-gray-500;
+
+// Skeleton
+// ---
+@skeleton-to-color: fade(@hs-gray-300, 60%);
+
+// Tooltip
+// ---
+@tooltip-bg: @hs-gray-600;
+
+// Popover
+// ---
+@popover-bg: @hs-gray-600;
+@popover-color: @hs-gray-10;
+@popover-arrow-width: 10px;
+
+// Dropdown
+// ---
+@dropdown-menu-bg: @hs-dropdown-bg-color;
+
+// Cascader
+// ---
+@cascader-menu-bg: @hs-dropdown-bg-color;
+@cascader-item-selected-bg: @hs-gray-500;
+
+// Table
+@table-header-bg: @hs-gray-700;
+@table-border-color: @hs-gray-500;
+@table-row-hover-bg: @hs-dark-90;
+@table-header-sort-bg: @hs-dark-100;
+@table-selected-row-hover-bg: @hs-dark-100;
+@table-header-sort-active-bg: @hs-dark-100;
+
+.ant-modal .ant-table thead > tr > th {
+    background-color: @table-header-bg !important;
+}

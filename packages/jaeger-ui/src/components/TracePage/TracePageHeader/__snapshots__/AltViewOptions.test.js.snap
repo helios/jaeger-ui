@@ -9,7 +9,7 @@ exports[`AltViewOptions renders correctly 1`] = `
       className=""
       focusable={false}
       prefixCls="ant-menu"
-      theme="light"
+      theme="dark"
     >
       <MenuItem>
         <a
@@ -65,7 +65,7 @@ exports[`AltViewOptions renders correctly 1`] = `
   <div
     className="AltViewOptions"
   >
-    Trace Timeline 
+    Trace Timeline
     <Icon
       type="down"
     />
