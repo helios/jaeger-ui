@@ -47,7 +47,7 @@ html {
 }
 
 .DemoGraph--node {
-  background: #bbb;
+  background: #151c26;
   border: 1px solid #777;
   /* box-shadow: 0 0 7px 1px rgba(0, 0, 0, 0.4); */
   cursor: pointer;
@@ -124,7 +124,7 @@ html {
 
 .Demo--miniMap .plexus-MiniMap--mapActive {
   /* dynamic: width, height, transform */
-  background: #bbb;
+  background: #151c26;
   outline: 1px solid #333;
   position: absolute;
 }

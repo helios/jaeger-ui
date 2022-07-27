@@ -72,7 +72,7 @@ limitations under the License.
 .NameSelector--overlay .ant-popover-arrow {
   border: 1px solid #999;
   z-index: -1;
-  background: #bbb;
+  background: #151c26;
 }
 
 .NameSelector--overlay .ant-popover-inner {
