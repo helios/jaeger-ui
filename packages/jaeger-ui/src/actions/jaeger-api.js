@@ -33,6 +33,12 @@ export function allSettled(promises) {
   return Promise.all(wrappedPromises);
 }
 
+export const fetchOrgTrace = createAction(
+  '@JAEGER_API/FETCH_ORG_TRACE',
+  (orgId, id) => JaegerAPI.fetchOrgTrace(orgId, id),
+  (orgId, id) => ({ orgId, id })
+);
+
 export const fetchTrace = createAction(
   '@JAEGER_API/FETCH_TRACE',
   id => JaegerAPI.fetchTrace(id),

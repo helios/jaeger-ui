@@ -71,7 +71,7 @@ export function orderTags(spanTags: KeyValuePair[], topPrefixes?: string[]) {
  * generally requires.
  */
 export default function transformTraceData(data: TraceData & { spans: SpanData[] }): Trace | null {
-  let { traceID } = data;
+  let { orgId, traceID } = data;
   if (!traceID) {
     return null;
   }
@@ -152,6 +152,7 @@ export default function transformTraceData(data: TraceData & { spans: SpanData[]
           refSpan.subsidiarilyReferencedBy.push({
             spanID,
             traceID,
+            orgId,
             span,
             refType: ref.refType,
           });
@@ -166,6 +167,7 @@ export default function transformTraceData(data: TraceData & { spans: SpanData[]
     services,
     spans,
     traceID,
+    orgId,
     traceName,
     // can't use spread operator for intersection types
     // repl: https://goo.gl/4Z23MJ

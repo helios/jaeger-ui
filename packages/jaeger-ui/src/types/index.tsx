@@ -37,6 +37,7 @@ export type FetchedTrace = {
   data?: Trace;
   error?: ApiError;
   id: string;
+  orgId?: string;
   state?: FetchedState;
 };
 
