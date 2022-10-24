@@ -65,6 +65,7 @@ type TDispatchProps = {
   acknowledgeArchive: (id: string) => void;
   archiveTrace: (id: string) => void;
   fetchTrace: (id: string) => void;
+  fetchOrgTrace: (orgId: string, id: string) => void;
   focusUiFindMatches: (trace: Trace, uiFind: string | TNil) => void;
 };
 
@@ -453,10 +454,10 @@ export function mapStateToProps(state: ReduxState, ownProps: TOwnProps): TReduxP
 
 // export for tests
 export function mapDispatchToProps(dispatch: Dispatch<ReduxState>): TDispatchProps {
-  const { fetchTrace } = bindActionCreators(jaegerApiActions, dispatch);
+  const { fetchTrace, fetchOrgTrace } = bindActionCreators(jaegerApiActions, dispatch);
   const { archiveTrace, acknowledge: acknowledgeArchive } = bindActionCreators(archiveActions, dispatch);
   const { focusUiFindMatches } = bindActionCreators(timelineActions, dispatch);
-  return { acknowledgeArchive, archiveTrace, fetchTrace, focusUiFindMatches };
+  return { acknowledgeArchive, archiveTrace, fetchTrace, fetchOrgTrace, focusUiFindMatches };
 }
 
 export default connect(
