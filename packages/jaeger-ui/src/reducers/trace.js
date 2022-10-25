@@ -15,7 +15,7 @@
 import _isEqual from 'lodash/isEqual';
 import { handleActions } from 'redux-actions';
 
-import { fetchTrace, fetchMultipleTraces, searchTraces } from '../actions/jaeger-api';
+import { fetchTrace, fetchOrgTrace, fetchMultipleTraces, searchTraces } from '../actions/jaeger-api';
 import { loadJsonTraces } from '../actions/file-reader-api';
 import { fetchedState } from '../constants';
 import transformTraceData from '../model/transform-trace-data';
@@ -50,6 +50,32 @@ function fetchTraceDone(state, { meta, payload }) {
 function fetchTraceErred(state, { meta, payload }) {
   const { id } = meta;
   const trace = { id, error: payload, state: fetchedState.ERROR };
+  const traces = { ...state.traces, [id]: trace };
+  return { ...state, traces };
+}
+
+function fetchOrgTraceStarted(state, { meta }) {
+  const { orgId, id } = meta;
+  const traces = { ...state.traces, [id]: { id, orgId, state: fetchedState.LOADING } };
+  return { ...state, traces };
+}
+
+function fetchOrgTraceDone(state, { meta, payload }) {
+  const { orgId, id } = meta;
+  const data = transformTraceData(payload.data[0]);
+  let trace;
+  if (!data) {
+    trace = { id, orgId, state: fetchedState.ERROR, error: new Error('Invalid trace data recieved.') };
+  } else {
+    trace = { data, id, orgId, state: fetchedState.DONE };
+  }
+  const traces = { ...state.traces, [id]: trace };
+  return { ...state, traces };
+}
+
+function fetchOrgTraceErred(state, { meta, payload }) {
+  const { orgId, id } = meta;
+  const trace = { id, orgId, error: payload, state: fetchedState.ERROR };
   const traces = { ...state.traces, [id]: trace };
   return { ...state, traces };
 }
@@ -155,6 +181,10 @@ export default handleActions(
     [`${fetchTrace}_PENDING`]: fetchTraceStarted,
     [`${fetchTrace}_FULFILLED`]: fetchTraceDone,
     [`${fetchTrace}_REJECTED`]: fetchTraceErred,
+
+    [`${fetchOrgTrace}_PENDING`]: fetchOrgTraceStarted,
+    [`${fetchOrgTrace}_FULFILLED`]: fetchOrgTraceDone,
+    [`${fetchOrgTrace}_REJECTED`]: fetchOrgTraceErred,
 
     [`${fetchMultipleTraces}_PENDING`]: fetchMultipleTracesStarted,
     [`${fetchMultipleTraces}_FULFILLED`]: fetchMultipleTracesDone,
