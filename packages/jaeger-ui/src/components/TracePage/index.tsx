@@ -42,7 +42,7 @@ import TracePageHeader from './TracePageHeader';
 import TraceTimelineViewer from './TraceTimelineViewer';
 import { actions as timelineActions } from './TraceTimelineViewer/duck';
 import { TUpdateViewRangeTimeFunction, IViewRange, ViewRangeTimeUpdate, ETraceViewType } from './types';
-import { getLocation, getUrl, getUrlWithOrg } from './url';
+import { getLocation, getLocationWithOrg, getUrl, getUrlWithOrg } from './url';
 import ErrorMessage from '../common/ErrorMessage';
 import LoadingIndicator from '../common/LoadingIndicator';
 import { extractUiFindFromState } from '../common/UiFindInput';
@@ -187,7 +187,7 @@ export class TracePageImpl extends React.PureComponent<TProps, TState> {
   }
 
   componentDidUpdate({ id: prevID }: TProps) {
-    const { id, trace } = this.props;
+    const { id, orgId, trace } = this.props;
 
     this._scrollManager.setTrace(trace && trace.data);
 
@@ -306,7 +306,11 @@ export class TracePageImpl extends React.PureComponent<TProps, TState> {
     }
     const { history } = this.props;
     if (id && id !== id.toLowerCase()) {
-      history.replace(getLocation(id.toLowerCase(), location.state));
+      if (orgId) {
+        history.replace(getLocationWithOrg(orgId, id.toLowerCase(), location.state));
+      } else {
+        history.replace(getLocation(id.toLowerCase(), location.state));
+      }
     }
   }
 
@@ -438,7 +442,7 @@ export class TracePageImpl extends React.PureComponent<TProps, TState> {
 
 // export for tests
 export function mapStateToProps(state: ReduxState, ownProps: TOwnProps): TReduxProps {
-  const { id } = ownProps.match.params;
+  const { id, orgId } = ownProps.match.params;
   const { archive, config, embedded, router } = state;
   const { traces } = state.trace;
   const trace = id ? traces[id] : null;
@@ -453,6 +457,7 @@ export function mapStateToProps(state: ReduxState, ownProps: TOwnProps): TReduxP
     archiveTraceState,
     embedded,
     id,
+    orgId,
     searchUrl,
     trace,
   };
