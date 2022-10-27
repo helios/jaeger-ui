@@ -348,6 +348,9 @@ export class TracePageImpl extends React.PureComponent<TProps, TState> {
       return <LoadingIndicator className="u-mt-vast" centered />;
     }
     const { data } = trace;
+    if (data) {
+      data.orgId = orgId;
+    }
     if (trace.state === fetchedState.ERROR || !data) {
       return <ErrorMessage className="ub-m3" error={trace.error || 'Unknown error'} />;
     }
