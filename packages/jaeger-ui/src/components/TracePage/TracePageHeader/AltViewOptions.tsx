@@ -31,6 +31,7 @@ import { ETraceViewType } from '../types';
 type Props = {
   onTraceViewChange: (viewType: ETraceViewType) => void;
   traceID: string;
+  orgId?: string;
   viewType: ETraceViewType;
 };
 
@@ -58,7 +59,7 @@ const MENU_ITEMS = [
 ];
 
 export default function AltViewOptions(props: Props) {
-  const { onTraceViewChange, viewType, traceID } = props;
+  const { onTraceViewChange, viewType, orgId, traceID } = props;
 
   const handleSelectView = (item: ETraceViewType) => {
     if (item === ETraceViewType.TraceTimelineViewer) {
@@ -84,7 +85,11 @@ export default function AltViewOptions(props: Props) {
       ))}
       <Menu.Item>
         <Link
-          to={prefixUrl(`/api/traces/${traceID}?prettyPrint=true`)}
+          to={
+            orgId
+              ? prefixUrl(`/api/orgs/${orgId}/traces/${traceID}?prettyPrint=true`)
+              : prefixUrl(`/api/traces/${traceID}?prettyPrint=true`)
+          }
           rel="noopener noreferrer"
           target="_blank"
           onClick={trackJsonView}
@@ -94,7 +99,11 @@ export default function AltViewOptions(props: Props) {
       </Menu.Item>
       <Menu.Item>
         <Link
-          to={prefixUrl(`/api/traces/${traceID}?raw=true&prettyPrint=true`)}
+          to={
+            orgId
+              ? prefixUrl(`/api/orgs/${orgId}/traces/${traceID}?raw=true&prettyPrint=true`)
+              : prefixUrl(`/api/traces/${traceID}?raw=true&prettyPrint=true`)
+          }
           rel="noopener noreferrer"
           target="_blank"
           onClick={trackRawJsonView}
