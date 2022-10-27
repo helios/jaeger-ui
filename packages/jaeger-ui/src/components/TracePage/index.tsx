@@ -187,7 +187,7 @@ export class TracePageImpl extends React.PureComponent<TProps, TState> {
   }
 
   componentDidUpdate({ id: prevID }: TProps) {
-    const { id, orgId, trace } = this.props;
+    const { id, trace } = this.props;
 
     this._scrollManager.setTrace(trace && trace.data);
 
