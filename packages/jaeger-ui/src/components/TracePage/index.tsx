@@ -42,7 +42,7 @@ import TracePageHeader from './TracePageHeader';
 import TraceTimelineViewer from './TraceTimelineViewer';
 import { actions as timelineActions } from './TraceTimelineViewer/duck';
 import { TUpdateViewRangeTimeFunction, IViewRange, ViewRangeTimeUpdate, ETraceViewType } from './types';
-import { getLocation, getUrl } from './url';
+import { getLocation, getUrl, getUrlWithOrg } from './url';
 import ErrorMessage from '../common/ErrorMessage';
 import LoadingIndicator from '../common/LoadingIndicator';
 import { extractUiFindFromState } from '../common/UiFindInput';
@@ -72,7 +72,7 @@ type TDispatchProps = {
 type TOwnProps = {
   history: RouterHistory;
   location: Location;
-  match: Match<{ id: string }>;
+  match: Match<{ id: string; orgId?: string }>;
 };
 
 type TReduxProps = {
@@ -80,6 +80,7 @@ type TReduxProps = {
   archiveTraceState: TraceArchive | TNil;
   embedded: null | EmbeddedState;
   id: string;
+  orgId?: string;
   searchUrl: null | string;
   trace: FetchedTrace | TNil;
   uiFind: string | TNil;
@@ -294,9 +295,13 @@ export class TracePageImpl extends React.PureComponent<TProps, TState> {
   };
 
   ensureTraceFetched() {
-    const { fetchTrace, location, trace, id } = this.props;
+    const { fetchTrace, fetchOrgTrace, location, trace, orgId, id } = this.props;
     if (!trace) {
-      fetchTrace(id);
+      if (orgId) {
+        fetchOrgTrace(orgId, id);
+      } else {
+        fetchTrace(id);
+      }
       return;
     }
     const { history } = this.props;
@@ -329,6 +334,7 @@ export class TracePageImpl extends React.PureComponent<TProps, TState> {
       archiveTraceState,
       embedded,
       id,
+      orgId,
       uiFind,
       trace,
       location: { state: locationState },
@@ -368,7 +374,7 @@ export class TracePageImpl extends React.PureComponent<TProps, TState> {
         viewType !== ETraceViewType.TraceTimelineViewer || (embedded && embedded.timeline.hideMinimap)
       ),
       hideSummary: Boolean(embedded && embedded.timeline.hideSummary),
-      linkToStandalone: getUrl(id),
+      linkToStandalone: orgId ? getUrlWithOrg(orgId, id) : getUrl(id),
       nextResult: this.nextResult,
       onArchiveClicked: this.archiveTrace,
       onSlimViewClicked: this.toggleSlimView,

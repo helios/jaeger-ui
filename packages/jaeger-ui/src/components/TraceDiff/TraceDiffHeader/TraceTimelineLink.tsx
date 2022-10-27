@@ -14,20 +14,26 @@
 
 import * as React from 'react';
 
-import { getUrl } from '../../TracePage/url';
+import { getUrl, getUrlWithOrg } from '../../TracePage/url';
 import NewWindowIcon from '../../common/NewWindowIcon';
 
 type PropsType = {
   traceID: string;
+  orgId?: string;
 };
 
 function stopPropagation(event: React.MouseEvent<HTMLAnchorElement>) {
   event.stopPropagation();
 }
 
-export default function TraceTimelineLink({ traceID }: PropsType) {
+export default function TraceTimelineLink({ orgId, traceID }: PropsType) {
   return (
-    <a href={getUrl(traceID)} onClick={stopPropagation} rel="noopener noreferrer" target="_blank">
+    <a
+      href={orgId ? getUrlWithOrg(orgId, traceID) : getUrl(traceID)}
+      onClick={stopPropagation}
+      rel="noopener noreferrer"
+      target="_blank"
+    >
       <NewWindowIcon />
     </a>
   );

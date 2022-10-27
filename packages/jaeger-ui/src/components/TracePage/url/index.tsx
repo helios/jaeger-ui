@@ -19,6 +19,7 @@ import prefixUrl from '../../../utils/prefix-url';
 import { TNil } from '../../../types';
 
 export const ROUTE_PATH = prefixUrl('/trace/:id');
+export const ROUTE_PATH_WITH_ORG = prefixUrl('/org/:orgId/trace/:id');
 
 export function getUrl(id: string, uiFind?: string): string {
   const traceUrl = prefixUrl(`/trace/${id}`);
@@ -31,6 +32,26 @@ export function getLocation(id: string, state: Record<string, any> | TNil, uiFin
   return {
     state,
     pathname: getUrl(id),
+    search: uiFind && queryString.stringify({ uiFind }),
+  };
+}
+
+export function getUrlWithOrg(orgId: string, id: string, uiFind?: string): string {
+  const traceUrl = prefixUrl(`/org/${orgId}/trace/${id}`);
+  if (!uiFind) return traceUrl;
+
+  return `${traceUrl}?${queryString.stringify({ uiFind })}`;
+}
+
+export function getLocationWithOrg(
+  orgId: string,
+  id: string,
+  state: Record<string, any> | TNil,
+  uiFind?: string
+) {
+  return {
+    state,
+    pathname: getUrlWithOrg(orgId, id),
     search: uiFind && queryString.stringify({ uiFind }),
   };
 }

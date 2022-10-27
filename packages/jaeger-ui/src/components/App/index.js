@@ -31,7 +31,7 @@ import { ROUTE_PATH as searchPath } from '../SearchTracePage/url';
 import TraceDiff from '../TraceDiff';
 import { ROUTE_PATH as traceDiffPath } from '../TraceDiff/url';
 import TracePage from '../TracePage';
-import { ROUTE_PATH as tracePath } from '../TracePage/url';
+import { ROUTE_PATH as tracePath, ROUTE_PATH_WITH_ORG as orgTracePath } from '../TracePage/url';
 import MonitorATMPage from '../Monitor';
 import { ROUTE_PATH as monitorATMPath } from '../Monitor/url';
 import JaegerAPI, { DEFAULT_API_ROOT } from '../../api/jaeger';
@@ -62,6 +62,7 @@ export default class JaegerUIApp extends Component {
               <Route path={searchPath} component={SearchTracePage} />
               <Route path={traceDiffPath} component={TraceDiff} />
               <Route path={tracePath} component={TracePage} />
+              <Route path={orgTracePath} component={TracePage} />
               <Route path={dependenciesPath} component={DependencyGraph} />
               <Route path={deepDependenciesPath} component={DeepDependencies} />
               <Route path={qualityMetricsPath} component={QualityMetrics} />
