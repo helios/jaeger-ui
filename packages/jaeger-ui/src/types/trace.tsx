@@ -43,6 +43,7 @@ export type SpanReference = {
   span: Span | null | undefined;
   spanID: string;
   traceID: string;
+  orgId?: string;
 };
 
 export type SpanData = {
@@ -72,6 +73,7 @@ export type Span = SpanData & {
 export type TraceData = {
   processes: Record<string, Process>;
   traceID: string;
+  orgId?: string;
 };
 
 export type Trace = TraceData & {

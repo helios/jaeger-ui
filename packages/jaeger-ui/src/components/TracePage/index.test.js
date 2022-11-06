@@ -716,6 +716,7 @@ describe('mapDispatchToProps()', () => {
     expect(mapDispatchToProps(() => {})).toEqual({
       acknowledgeArchive: expect.any(Function),
       archiveTrace: expect.any(Function),
+      fetchOrgTrace: expect.any(Function),
       fetchTrace: expect.any(Function),
       focusUiFindMatches: expect.any(Function),
     });

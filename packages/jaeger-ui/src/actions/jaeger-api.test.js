@@ -29,6 +29,7 @@ import JaegerAPI from '../api/jaeger';
 
 describe('actions/jaeger-api', () => {
   const query = { param: 'value' };
+  const orgId = 'my-org-id';
   const id = 'my-trace-id';
   const ids = [id, id];
   let mock;
@@ -39,6 +40,23 @@ describe('actions/jaeger-api', () => {
 
   afterEach(() => {
     mock.restore();
+  });
+
+  it('@JAEGER_API/FETCH_ORG_TRACE should fetch the trace by orgId and id', () => {
+    mock.expects('fetchOrgTrace').withExactArgs(orgId, id);
+    jaegerApiActions.fetchOrgTrace(orgId, id);
+    expect(() => mock.verify()).not.toThrow();
+  });
+
+  it('@JAEGER_API/FETCH_ORG_TRACE should return the promise', () => {
+    const { payload } = jaegerApiActions.fetchOrgTrace(orgId, id);
+    expect(isPromise(payload)).toBeTruthy();
+  });
+
+  it('@JAEGER_API/FETCH_ORG_TRACE should attach the orgId and id as meta', () => {
+    const { meta } = jaegerApiActions.fetchOrgTrace(orgId, id);
+    expect(meta.id).toBe(id);
+    expect(meta.orgId).toBe(orgId);
   });
 
   it('@JAEGER_API/FETCH_TRACE should fetch the trace by id', () => {

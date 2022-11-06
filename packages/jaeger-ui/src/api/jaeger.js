@@ -114,6 +114,9 @@ const JaegerAPI = {
   fetchTrace(id) {
     return getJSON(`${this.apiRoot}traces/${id}`);
   },
+  fetchOrgTrace(orgId, id) {
+    return getJSON(`${this.apiRoot}/orgs/${orgId}/traces/${id}`);
+  },
   searchTraces(query) {
     return getJSON(`${this.apiRoot}traces`, { query });
   },

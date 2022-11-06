@@ -42,7 +42,7 @@ import TracePageHeader from './TracePageHeader';
 import TraceTimelineViewer from './TraceTimelineViewer';
 import { actions as timelineActions } from './TraceTimelineViewer/duck';
 import { TUpdateViewRangeTimeFunction, IViewRange, ViewRangeTimeUpdate, ETraceViewType } from './types';
-import { getLocation, getUrl } from './url';
+import { getLocation, getLocationWithOrg, getUrl, getUrlWithOrg } from './url';
 import ErrorMessage from '../common/ErrorMessage';
 import LoadingIndicator from '../common/LoadingIndicator';
 import { extractUiFindFromState } from '../common/UiFindInput';
@@ -65,13 +65,14 @@ type TDispatchProps = {
   acknowledgeArchive: (id: string) => void;
   archiveTrace: (id: string) => void;
   fetchTrace: (id: string) => void;
+  fetchOrgTrace: (orgId: string, id: string) => void;
   focusUiFindMatches: (trace: Trace, uiFind: string | TNil) => void;
 };
 
 type TOwnProps = {
   history: RouterHistory;
   location: Location;
-  match: Match<{ id: string }>;
+  match: Match<{ id: string; orgId?: string }>;
 };
 
 type TReduxProps = {
@@ -79,6 +80,7 @@ type TReduxProps = {
   archiveTraceState: TraceArchive | TNil;
   embedded: null | EmbeddedState;
   id: string;
+  orgId?: string;
   searchUrl: null | string;
   trace: FetchedTrace | TNil;
   uiFind: string | TNil;
@@ -293,14 +295,22 @@ export class TracePageImpl extends React.PureComponent<TProps, TState> {
   };
 
   ensureTraceFetched() {
-    const { fetchTrace, location, trace, id } = this.props;
+    const { fetchTrace, fetchOrgTrace, location, trace, orgId, id } = this.props;
     if (!trace) {
-      fetchTrace(id);
+      if (orgId) {
+        fetchOrgTrace(orgId, id);
+      } else {
+        fetchTrace(id);
+      }
       return;
     }
     const { history } = this.props;
     if (id && id !== id.toLowerCase()) {
-      history.replace(getLocation(id.toLowerCase(), location.state));
+      if (orgId) {
+        history.replace(getLocationWithOrg(orgId, id.toLowerCase(), location.state));
+      } else {
+        history.replace(getLocation(id.toLowerCase(), location.state));
+      }
     }
   }
 
@@ -328,6 +338,7 @@ export class TracePageImpl extends React.PureComponent<TProps, TState> {
       archiveTraceState,
       embedded,
       id,
+      orgId,
       uiFind,
       trace,
       location: { state: locationState },
@@ -337,6 +348,9 @@ export class TracePageImpl extends React.PureComponent<TProps, TState> {
       return <LoadingIndicator className="u-mt-vast" centered />;
     }
     const { data } = trace;
+    if (data) {
+      data.orgId = orgId;
+    }
     if (trace.state === fetchedState.ERROR || !data) {
       return <ErrorMessage className="ub-m3" error={trace.error || 'Unknown error'} />;
     }
@@ -367,7 +381,7 @@ export class TracePageImpl extends React.PureComponent<TProps, TState> {
         viewType !== ETraceViewType.TraceTimelineViewer || (embedded && embedded.timeline.hideMinimap)
       ),
       hideSummary: Boolean(embedded && embedded.timeline.hideSummary),
-      linkToStandalone: getUrl(id),
+      linkToStandalone: orgId ? getUrlWithOrg(orgId, id) : getUrl(id),
       nextResult: this.nextResult,
       onArchiveClicked: this.archiveTrace,
       onSlimViewClicked: this.toggleSlimView,
@@ -431,7 +445,7 @@ export class TracePageImpl extends React.PureComponent<TProps, TState> {
 
 // export for tests
 export function mapStateToProps(state: ReduxState, ownProps: TOwnProps): TReduxProps {
-  const { id } = ownProps.match.params;
+  const { id, orgId } = ownProps.match.params;
   const { archive, config, embedded, router } = state;
   const { traces } = state.trace;
   const trace = id ? traces[id] : null;
@@ -446,6 +460,7 @@ export function mapStateToProps(state: ReduxState, ownProps: TOwnProps): TReduxP
     archiveTraceState,
     embedded,
     id,
+    orgId,
     searchUrl,
     trace,
   };
@@ -453,10 +468,10 @@ export function mapStateToProps(state: ReduxState, ownProps: TOwnProps): TReduxP
 
 // export for tests
 export function mapDispatchToProps(dispatch: Dispatch<ReduxState>): TDispatchProps {
-  const { fetchTrace } = bindActionCreators(jaegerApiActions, dispatch);
+  const { fetchTrace, fetchOrgTrace } = bindActionCreators(jaegerApiActions, dispatch);
   const { archiveTrace, acknowledge: acknowledgeArchive } = bindActionCreators(archiveActions, dispatch);
   const { focusUiFindMatches } = bindActionCreators(timelineActions, dispatch);
-  return { acknowledgeArchive, archiveTrace, fetchTrace, focusUiFindMatches };
+  return { acknowledgeArchive, archiveTrace, fetchTrace, fetchOrgTrace, focusUiFindMatches };
 }
 
 export default connect(

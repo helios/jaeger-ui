@@ -76,6 +76,7 @@ export default function transformTraceData(data: TraceData & { spans: SpanData[]
     return null;
   }
   traceID = traceID.toLowerCase();
+  const { orgId } = data;
 
   let traceEndTime = 0;
   let traceStartTime = Number.MAX_SAFE_INTEGER;
@@ -152,6 +153,7 @@ export default function transformTraceData(data: TraceData & { spans: SpanData[]
           refSpan.subsidiarilyReferencedBy.push({
             spanID,
             traceID,
+            orgId,
             span,
             refType: ref.refType,
           });
@@ -166,6 +168,7 @@ export default function transformTraceData(data: TraceData & { spans: SpanData[]
     services,
     spans,
     traceID,
+    orgId,
     traceName,
     // can't use spread operator for intersection types
     // repl: https://goo.gl/4Z23MJ

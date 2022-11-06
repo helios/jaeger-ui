@@ -50,6 +50,10 @@ exports[`JaegerUIApp does not explode 1`] = `
         />
         <Route
           component={[Function]}
+          path="/org/:orgId/trace/:id"
+        />
+        <Route
+          component={[Function]}
           path="/dependencies"
         />
         <Route
